@@ -120,70 +120,69 @@ app.post('/admissions', cpUpload, async (req, res) => {
     if (body.siblings_at_aps && body.siblings_at_aps.toLowerCase() === 'no') body.siblings_details = 'No';
 
     // Update this row to match your sheet columns order:
-    const row = [
-      body.full_name,
-      body.gender,
-      body.studentType,
-      body.date_of_birth,
-      body.country_of_birth,
-      body.nationality,
-      body.mother_tongue,
-      body.meal_preference,
-      body.publish_photos,
-      body.home_address,
-      body.previous_school,
-      body.last_completed_year,
-      body.father_name,
-      body.father_mobile,
-      body.father_email,
-      body.father_address,
-      body.father_occupation,
-      body.father_employer,
-      body.mother_name,
-      body.mother_mobile,
-      body.mother_email,
-      body.mother_address,
-      body.mother_occupation,
-      body.mother_employer,
-      body.guardian_name,
-      body.guardian_relation,
-      body.guardian_occupation,
-      body.guardian_mobile,
-      body.guardian_email,
-      body.emergency1_name,
-      body.emergency1_tel,
-      body.emergency1_relation,
-      body.emergency2_name,
-      body.emergency2_tel,
-      body.emergency2_relation,
-      body.siblings_at_aps,
-      body.siblings_details,
-      uploads.passport_photo,
-      uploads.report_card,
-      uploads.immunization_card,
-      uploads.birth_cert,
-      body.allergies,
-      body.allergy_details,
-      body.medication,
-      body.medication_details,
-      body.ok_to_give_paracetamol,
-      body.immunized_tetanus,
-      body.immunized_polio,
-      body.immunized_measles,
-      body.immunized_tb,
-      body.immunized_others,
-      body.dietary_requirements,
-      body.dietary_details,
-      body.alt_contact1_name,
-      body.alt_contact1_tel,
-      body.alt_contact1_relation,
-      body.alt_contact2_name,
-      body.alt_contact2_tel,
-      body.alt_contact2_relation,
-      body.other_conditions_details,
-      "Pending",    // Payment Status
-      "Processed"   // Processed
-    ];
+   const row = [
+  body.full_name,                                 // Full Name
+  body.date_of_birth,                             // Date of Birth
+  body.gender,                                    // Gender
+  body.country_of_birth,                          // Country of Birth
+  body.nationality,                               // Nationality
+  body.mother_tongue,                             // Mother Tongue
+  body.publish_photos,                            // Publishing Photos (Yes/No)
+  body.classApplied,                              // Class Applying For
+  body.studentType,                               // Day / Boarding
+  body.home_address,                              // Home Address
+  body.previous_school,                           // Previous School Name and Address
+  body.last_completed_year,                       // Last Completed Year-band/Class
+  body.father_name,                               // Father’s Full Name
+  body.father_mobile,                             // Father’s Mobile Number
+  body.father_email,                              // Father’s Email Address
+  body.father_address,                            // Father’s Address (if different)
+  body.father_occupation,                         // Father’s Occupation
+  body.father_employer,                           // Father’s Employer
+  body.mother_name,                               // Mother’s Full Name
+  body.mother_mobile,                             // Mother’s Mobile Number
+  body.mother_email,                              // Mother’s Email Address
+  body.mother_address,                            // Mother’s Address (if different)
+  body.mother_occupation,                         // Mother’s Occupation
+  body.mother_employer,                           // Mother’s Employer
+  body.guardian_name,                             // Guardian Name
+  body.guardian_relation,                         // Guardian Relationship
+  body.guardian_mobile,                           // Guardian Mobile Number
+  body.guardian_email,                            // Guardian Email Address
+  body.guardian_occupation,                       // Guardian Occupation
+  body.guardian_employer,                         // Guardian Employer
+  body.emergency1_name,                           // Emergency Contact 1 Name
+  body.emergency1_tel,                            // Emergency Contact 1 Tel
+  body.emergency1_relation,                       // Emergency Contact 1 Relationship
+  body.emergency2_name,                           // Emergency Contact 2 Name
+  body.emergency2_tel,                            // Emergency Contact 2 Tel
+  body.emergency2_relation,                       // Emergency Contact 2 Relationship
+  body.siblings_at_aps,                           // Siblings at APS (Yes/No)
+  body.siblings_details,                          // Siblings Names & Class
+  uploads.passport_photo,                         // Passport Photo (URL)
+  uploads.report_card,                            // Report Card (URL)
+  uploads.birth_cert,                             // Birth Certificate (URL)
+  uploads.passport_copy,                          // Passport Copy / National ID / Refugee Copy (URL)
+  body.remarks,                                   // Remarks
+  body.referred_by,                               // Referred By
+  body.admission_date,                            // Date of Admission
+  body.yearband_admitted,                         // Yearband Admitted To
+  body.allergies,                                 // Allergies/Asthma/Others (Yes/No)
+  body.allergy_details,                           // Allergy Details
+  body.paracetamol,                               // Paracetamol/Panadol OK (Yes/No)
+  body.alt1_name,                                 // Alternate Contact 1 Name
+  body.alt1_tel,                                  // Alternate Contact 1 Tel
+  body.alt1_relation,                             // Alternate Contact 1 Relationship
+  body.alt2_name,                                 // Alternate Contact 2 Name
+  body.alt2_tel,                                  // Alternate Contact 2 Tel
+  body.alt2_relation,                             // Alternate Contact 2 Relationship
+  body.tcAcceptance ? 'Yes' : 'No',               // Agreement to Terms (Yes/No)
+  body.signature,                                 // Signature (typed name)
+  'Pending',                                      // Pending
+  'Processed'                                     // Processed
+  // Add '' if you have more columns but not in use (for padding)
+];
+
 
     // Find the correct sheet tab
     const classApplied = body.classApplied;
