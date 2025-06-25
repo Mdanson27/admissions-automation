@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "form-handler-project",
+  "private_key_id": "76b9debaf6a27c2b78da6313c561319bd67b7d0f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCw6WsW7Jh/ODjl\nRp0v5MeCLA5v52PW958WScZeSuVqb4V1dXFvaaBXNbQF7jYpWMNjoGE2BtnEZN8T\nr5GKtELGLZnYyUVHqzUH7amnLHJZtLWwDHSq2EYFy3iK3cQ2n7ETta+JEo/CiGwL\nOLbZky3MY/5DRv5J2eoLbP5PTaPi1ssb3C6CftBxKJVsE7arggc1c7S/1aiLF08+\nYVgknLQ097B/nCzcP7DzhMin6VjlEMOqEwq/t+88TD2GX5z3Ki9tM+uxdOycMpGw\nUyX4w9hIknOiIaRQ5ewEdOFFWl0ZNj3Jfju27AF+HfXfYDp5X8PXCELvRWHY5zD1\nG+LfWw+dAgMBAAECggEAC7Jwk17zBEew3K6gZP1w7YaWhnKbqNJ4MSPmmu8ZH8JI\n5jJs3Mt0lQo8IWpAfYJcxOENRw0JPVGCvbf4Ml4Rzi2kru872+281LiI5OtCPPPU\nUX65VgnKXhwNF81q6ZusZxu2WU9MtGA1w0DYN3w3j9HgCrhjxs6YNBzcQbJl+XD9\njJOdaRoqWG+yPr1+3LwJv3czJOecrzxxX1rbR1ZNJJgfSRG4Udox1eUfDXmF2vYX\nZ+JRn+e/mZil7BRcbGqmr3wi8A93jYEfdC5N0c0HjlNwgnvASqpxdem64d3ZwRrs\nIl9uCtpwtbd6no12VmB2rVMxlAvMndW+U6uq9/pEdwKBgQDxJPySH8TBYTw8+itg\naWCpbXuQDMCRrcEQmKu0fWvb+boGIWY/aCIFSLU8BaqUOcuNTXnvZHWfHkIxny/Z\nmxDbpEcFlAvkXxY5VO3fA3S+PTzfC/xtRuzPT7PiLK+MFAyhpubYn6nyxCscuw52\nOVUmAsIWHkzoxOOaQwUDBxNO0wKBgQC7z3AyuDM2ssXGl45sFZcr2WGNyRB8V5L2\nPO3Lxq9kulgNLS84AdsbVNpiNZCGMZcOAxb0cw5GEr2OuvgAhRXsmFLVsuz4Eoim\nTc1QzG9jGq9wkou7DmtxTl5EfS/EXrdWKvyVvApwyd6BTxaBvxBLdzFQ48FSoR+D\ngoVkvCKBzwKBgDfAhWSDU8oh4Pt4G28+7co+NcMoL51+vpRHt+sS1E0Xf5rLPgiK\n2tK97Kjj5nw+oIEa2IYwg8E2DbfLRhTZdRxS7tirUdSK52h56kUVV3hkUB6BdusM\n6tNDaiNwkWWhfQoivFx5DaHDGPSbisxqlPUkzhqvBrkKTFTuCcqZaC1hAoGAYkPt\nHnyGP05WcMwHdsHtMMIyaq8S8xwXBsNmYEJ6rqdZPruvgwxlie1hvhTso2n68Rfo\nwMoaY8uWZsGo1QzNJdelL67IkhuQaAM5M9djSGVD+hCTD7JBwS0R4Z/miEZOgsVH\nF0kl5VGaG+o3indfnTymDv67vfITvQljpgtRur0CgYAxYrZMqJ+O18lnT8GaxFku\nKvsIT9a9rmOD+/b+T3nkQdXh93HexAVwKq+xfZ6V1Uj+cJjuosYmMhIlf567eKeu\nyOdDZTc1vuWA+1FqdJHB5s/eyDa+uLhiPoKqRLSnri0Zdxu3jlct5hAPC/hPRXdv\nS4BLwVD28p0rcgqZhj45VQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "n8n-admissions-sa@form-handler-project.iam.gserviceaccount.com",
+  "client_id": "112855743648470108633",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/n8n-admissions-sa%40form-handler-project.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
