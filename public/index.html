@@ -377,7 +377,7 @@ After payment, print & sign this form and submit with your receipt.
       e.preventDefault();
       const fd=new FormData(admissionsForm);
       try{
-        const res=await fetch('/admissions',{method:'POST',body:fd});
+        const res=await fetch('https://african-pearl-international-school.onrender.com/admissions',{method:'POST',body:fd});
         if(!res.ok) throw new Error(await res.text());
         admissionsForm.classList.add('hidden');
         step2.classList.remove('hidden');
@@ -388,7 +388,7 @@ After payment, print & sign this form and submit with your receipt.
       e.preventDefault();
       const wa=document.getElementById('whatsapp').value;
       try{
-        const res=await fetch('/sendWa',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({wa})});
+        const res=await fetch('https://african-pearl-international-school.onrender.com/sendWa',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({wa})});
         if(!res.ok) throw new Error(await res.text());
         alert('Payment details sent via WhatsApp!');
       }catch(err){alert(err.message);}
