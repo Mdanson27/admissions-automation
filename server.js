@@ -1,11 +1,22 @@
-// server.js
 require('dotenv').config();
+const fs = require('fs'); // <--- Add this
+// ... other imports
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const { google } = require('googleapis');
 const path = require('path');
 const { Readable } = require('stream');
+
+// --- Service Account JSON write (must be before GoogleAuth) ---
+if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+  fs.writeFileSync(
+    './google-credentials.json',
+    process.env.GOOGLE_SERVICE_ACCOUNT_JSON
+  );
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = './google-credentials.json';
+}
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,14 +27,12 @@ const DRIVE_FOLDER_ID = process.env.DRIVE_FOLDER_ID;
 
 // Authenticate with Google APIs using a Service Account
 // Authenticate with Google APIs using a Service Account
-const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
 const auth = new google.auth.GoogleAuth({
-  credentials,
+  keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS, // <--- this is now correct
   scopes: [
     'https://www.googleapis.com/auth/drive.file',
     'https://www.googleapis.com/auth/spreadsheets'
   ]
-});
 
 const drive = google.drive({ version: 'v3', auth });
 const sheets = google.sheets({ version: 'v4', auth });
