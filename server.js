@@ -15,13 +15,16 @@ const SHEET_ID = process.env.SHEET_ID;
 const DRIVE_FOLDER_ID = process.env.DRIVE_FOLDER_ID;
 
 // Authenticate with Google APIs using a Service Account
+// Authenticate with Google APIs using a Service Account
+const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
 const auth = new google.auth.GoogleAuth({
-  keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+  credentials,
   scopes: [
     'https://www.googleapis.com/auth/drive.file',
     'https://www.googleapis.com/auth/spreadsheets'
   ]
 });
+
 const drive = google.drive({ version: 'v3', auth });
 const sheets = google.sheets({ version: 'v4', auth });
 
