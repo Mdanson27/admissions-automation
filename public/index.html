@@ -4,28 +4,20 @@
   <meta charset="UTF-8" />
   <title>African Pearl International School — Admission Form</title>
   <style>
-    /* Reset & base */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #fff; color: #000; font-family: 'Times New Roman', serif; padding: 20px; }
     .hidden { display: none; }
-
-    /* Container */
     .form-container {
       max-width: 900px;
       margin: auto;
       border: 2px solid #000;
       padding: 0;
     }
-
-    /* Tables fixed layout */
-    .header-table,
-    .form-table {
+    .header-table, .form-table {
       table-layout: fixed;
       width: 100%;
       border-collapse: collapse;
     }
-
-    /* Header table */
     .header-table td {
       border: none;
       vertical-align: top;
@@ -34,7 +26,6 @@
     .header-logo { width: 20%; text-align: center; }
     .header-logo img { max-height: 100px; }
     .header-info { width: 60%; text-align: center; font-size: 14px; line-height: 1.2; }
-    /* Passport photo preview */
     .header-photo { width: 20%; text-align: center; font-size: 12px; padding-top: 8px; }
     .photo-box {
       width: 100px; height: 120px;
@@ -50,10 +41,7 @@
     .header-photo input[type="file"] {
       display: block; width: 80%; max-width: 120px; margin: 6px auto 0;
     }
-
-    /* Main form table */
-    .form-table th,
-    .form-table td {
+    .form-table th, .form-table td {
       border: 1px solid #000;
       padding: 6px;
       vertical-align: top;
@@ -79,7 +67,6 @@
 </head>
 <body>
   <div class="form-container">
-
     <!-- STEP 1 -->
     <form id="admissionsForm" enctype="multipart/form-data">
       <table class="header-table">
@@ -99,12 +86,11 @@
           </td>
           <td class="header-photo">
             <div class="photo-box empty" id="photoBox"></div>
-            <input type="file" name="passport_size_photo" id="passportPhotoInput" accept="image/png" required>
+            <input type="file" name="passport_size_photo" id="passportSizePhotoInput" accept="image/png" required>
             <div class="note">Passport-size photograph (PNG only)</div>
           </td>
         </tr>
       </table>
-
       <table class="form-table">
         <!-- Student Details -->
         <tr>
@@ -236,21 +222,20 @@
         </tr>
         <!-- File uploads -->
         <tr><td colspan="4" class="section-header">Please attach the following files</td></tr>
-       <tr>
-  <td class="required">1. Passport photo:<br>
-    <input type="file" name="passport_photo" id="passportPhotoInput" accept="image/png" required>
-  </td>
-  <td class="required" id="reportRow">2. Report card:<br>
-    <input type="file" name="report_card" id="reportCardInput" accept="application/pdf" required>
-  </td>
-  <td class="required">3. Birth Certificate:<br>
-    <input type="file" name="birth_cert" id="birthCertInput" accept="application/pdf" required>
-  </td>
-  <td class="required">4. Passport copy / National ID / Refugee copy (PDF):<br>
-    <input type="file" name="passport_copy" id="passportIdInput" accept="application/pdf" required>
-  </td>
-</tr>
-
+        <tr>
+          <td class="required">1. Passport photo:<br>
+            <input type="file" name="passport_photo" id="passportPhotoInput" accept="image/png" required>
+          </td>
+          <td class="required" id="reportRow">2. Report card:<br>
+            <input type="file" name="report_card" id="reportCardInput" accept="application/pdf" required>
+          </td>
+          <td class="required">3. Birth Certificate:<br>
+            <input type="file" name="birth_cert" id="birthCertInput" accept="application/pdf" required>
+          </td>
+          <td class="required">4. Passport copy / National ID / Refugee copy (PDF):<br>
+            <input type="file" name="passport_copy" id="passportIdInput" accept="application/pdf" required>
+          </td>
+        </tr>
         <!-- Remarks & Admission date -->
         <tr>
           <td colspan="2">
@@ -292,7 +277,8 @@
         <!-- Signature -->
         <tr class="submit-row">
           <td colspan="4">
-            <label class="required"><input type="checkbox" id="tcAcceptance" required> I agree to the terms & conditions.</label><br>
+            <label class="required"><input type="checkbox" id="tcAcceptance" name="tcAcceptance" required>
+              I agree to the terms & conditions.</label><br>
             <label class="required">Signature (type full name):</label>
             <input type="text" name="signature" required><br>
             <button type="submit" class="submit-btn">Submit Application</button>
@@ -300,39 +286,42 @@
         </tr>
       </table>
     </form>
-
-    <!-- STEP 2: WhatsApp & Payment Details -->
-    <div id="step2" class="hidden">
-      <h2>Payment Details & WhatsApp</h2>
-      <p>Your application was received on <strong id="receivedTime"></strong>.</p>
-      <form id="contactForm">
-        <label class="required">WhatsApp Number</label>
-        <input type="text" id="whatsapp" placeholder="+2567..." required>
-        <textarea rows="8" readonly>
-Please pay school fees via SchoolPay code X or Equity Bank UGX 01103555107104.
-Fees are non-refundable; late fees incur 5% per week.
-After payment, print & sign this form and submit with your receipt.
-        </textarea>
-        <button type="submit" class="submit-btn">Send Payment Details via WhatsApp</button>
-      </form>
+    <!-- STEP 2: Success message and download links -->
+    <div id="step2" class="hidden" style="max-width:600px;margin:40px auto;text-align:center;">
+      <h2 style="color:#216399;">Thank you for your application!</h2>
+      <p style="font-size:17px;line-height:1.5;">
+        Your application has been received.<br>
+        <b>Please download your Admission Form PDF below.</b><br>
+        Bring the signed PDF and copies of your ID documents to the school when reporting.<br>
+        <span style="color:green;">Welcome to African Pearl International School!</span>
+      </p>
+      <a id="pdfDownload" class="download-btn" style="display:inline-block;margin:18px; padding:10px 20px; background:#004477; color:#fff; border-radius:8px; font-weight:bold;"
+        href="#" download="Admission_Form.pdf" target="_blank">Download Official Admission Form (PDF)</a>
+      <a href="AfricanPearlSchool_Terms_and_Conditions.pdf"
+        class="download-btn"
+        style="display:inline-block;margin:18px; padding:10px 20px; background:#006699; color:#fff; border-radius:8px; font-weight:bold;"
+        download="AfricanPearlSchool_Terms_and_Conditions.pdf"
+        target="_blank">
+        Download School Terms & Conditions (PDF)
+      </a>
+      <br>
+      <button onclick="window.location.reload()" style="margin-top:28px;padding:8px 18px;">Submit Another Application</button>
     </div>
-
   </div>
-
   <script>
     // Auto-fill admission date
     document.getElementById('admissionDate').value = new Date().toISOString().split('T')[0];
 
     // File size limit (2MB)
     const MAX_FILE_SIZE = 2 * 1024 * 1024;
-    ['passportPhotoInput','reportCardInput','birthCertInput','passportIdInput'].forEach(id => {
+    ['passportSizePhotoInput','passportPhotoInput','reportCardInput','birthCertInput','passportIdInput'].forEach(id => {
       const inp = document.getElementById(id);
       inp.addEventListener('change', () => {
         const file = inp.files[0];
         if (file && file.size > MAX_FILE_SIZE) {
           alert('File too large. Max size is 2MB.');
           inp.value = '';
-          if (id==='passportPhotoInput') {
+          if (id==='passportSizePhotoInput') {
             const box = document.getElementById('photoBox');
             box.style.backgroundImage = '';
             box.classList.add('empty');
@@ -342,7 +331,7 @@ After payment, print & sign this form and submit with your receipt.
     });
 
     // Passport preview
-    const input = document.getElementById('passportPhotoInput');
+    const input = document.getElementById('passportSizePhotoInput');
     const box   = document.getElementById('photoBox');
     input.addEventListener('change', () => {
       const file = input.files[0];
@@ -371,45 +360,42 @@ After payment, print & sign this form and submit with your receipt.
     // Two-step flow
     const admissionsForm=document.getElementById('admissionsForm');
     const step2=document.getElementById('step2');
-    const contactForm=document.getElementById('contactForm');
-    const receivedTime=document.getElementById('receivedTime');
-    admissionsForm.addEventListener('submit',async e=>{
+    const pdfBtn=document.getElementById('pdfDownload');
+    admissionsForm.addEventListener('submit', async e => {
       e.preventDefault();
-      const fd=new FormData(admissionsForm);
-      try{
-        const res=await fetch('https://african-pearl-international-school.onrender.com/admissions',{method:'POST',body:fd});
-        if(!res.ok) throw new Error(await res.text());
+      const fd = new FormData(admissionsForm);
+      try {
+        const res = await fetch('/admissions', { method: 'POST', body: fd });
+        if (!res.ok) throw new Error(await res.text());
+        const result = await res.json();
+
         admissionsForm.classList.add('hidden');
         step2.classList.remove('hidden');
-        receivedTime.textContent=new Date().toLocaleString();
-      }catch(err){alert(err.message);}
-    });
-    contactForm.addEventListener('submit',async e=>{
-      e.preventDefault();
-      const wa=document.getElementById('whatsapp').value;
-      try{
-        const res=await fetch('https://african-pearl-international-school.onrender.com/sendWa',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({wa})});
-        if(!res.ok) throw new Error(await res.text());
-        alert('Payment details sent via WhatsApp!');
-      }catch(err){alert(err.message);}
-    });
-  </script>
 
-  <!-- Auto-“No” logic -->
-  <script>
+        pdfBtn.href = result.pdfUrl || "#";
+        pdfBtn.download = "Admission_Form.pdf";
+        pdfBtn.style.display = result.pdfUrl ? "inline-block" : "none";
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+
+    // Auto-“No” logic
     function setupYesNoAutoDetails(name, detailsId) {
       const radios = document.querySelectorAll(`input[name="${name}"]`);
-      const detail = document.getElementById(detailsId);
+      const detail = detailsId ? document.getElementById(detailsId) : null;
       function update() {
         const noChecked = Array.from(radios).some(r => r.value==='No' && r.checked);
-        if (noChecked) {
-          detail.value = 'No';
-          detail.readOnly = true;
-          detail.style.background = '#eee';
-        } else {
-          detail.value = '';
-          detail.readOnly = false;
-          detail.style.background = '';
+        if (detail) {
+          if (noChecked) {
+            detail.value = 'No';
+            detail.readOnly = true;
+            detail.style.background = '#eee';
+          } else {
+            detail.value = '';
+            detail.readOnly = false;
+            detail.style.background = '';
+          }
         }
       }
       radios.forEach(r => r.addEventListener('change', update));
@@ -419,7 +405,6 @@ After payment, print & sign this form and submit with your receipt.
       setupYesNoAutoDetails('siblings_at_aps','siblings_details');
       setupYesNoAutoDetails('allergies','allergy_details');
       setupYesNoAutoDetails('paracetamol',''); // no detail field
-      setupYesNoAutoDetails('dietary_requirements','dietary_details');
     });
   </script>
 </body>
