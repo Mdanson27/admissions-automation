@@ -239,12 +239,20 @@ const UPLOADS_FOLDER_ID = process.env.UPLOADS_FOLDER_ID;
 
 // Authenticate with Google APIs using a Service Account
 // Authenticate with Google APIs using a Service Account
+const { GoogleAuth } = require('google-auth-library');
+const fs = require('fs');
+
+if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+  // Write service account JSON to a temp file if needed (Render compatible)
+  fs.writeFileSync('./google-credentials.json', process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = './google-credentials.json';
+}
+
 const auth = new google.auth.GoogleAuth({
-  keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS, // <--- this is now correct
-  scopes: [
-    'https://www.googleapis.com/auth/drive.file',
-    'https://www.googleapis.com/auth/spreadsheets'
-  ]
+  keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+  scopes: [ ... ]
+});
+
  
 });
 const drive = google.drive({ version: 'v3', auth });
