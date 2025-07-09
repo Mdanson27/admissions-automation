@@ -254,15 +254,18 @@ async function generateAdmissionPDF(formData, passportPhotoUrl) {
   `;
 
   // Puppeteer section
- const puppeteer = require('puppeteer');
-console.log('[INFO] Puppeteer Chromium Executable Path:', puppeteer.executablePath());
+const puppeteer = require('puppeteer');
 
+const CHROME_RENDER_PATH = '/opt/render/.cache/puppeteer/chrome/linux-137.0.7151.119/chrome-linux64/chrome';
+
+console.log('[INFO] Puppeteer Chromium Executable Path:', process.env.RENDER ? CHROME_RENDER_PATH : puppeteer.executablePath());
 
 const browser = await puppeteer.launch({
   headless: "new",
   args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath(),
+  executablePath: process.env.RENDER ? CHROME_RENDER_PATH : puppeteer.executablePath()
 });
+
 
   const page = await browser.newPage();
   await page.setContent(html, { waitUntil: 'networkidle0' });
