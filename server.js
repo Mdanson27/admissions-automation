@@ -262,22 +262,30 @@ fs.readdirSync(dir).forEach(file => {
   
 const puppeteer = require('puppeteer');
 
-const CHROME_RENDER_PATH = '/opt/render/.cache/puppeteer/chrome/linux-137.0.7151.119/chrome';
+const guessChromePaths = [
+  '/usr/bin/chromium-browser',
+  '/usr/bin/chromium',
+  '/usr/bin/google-chrome-stable',
+  '/usr/bin/google-chrome',
+];
 
-console.log('[INFO] Puppeteer Chromium Executable Path:', process.env.RENDER ? CHROME_RENDER_PATH : puppeteer.executablePath());
+// Find the first existing Chrome path
+
+let chromePath = null;
+for (const p of guessChromePaths) {
+  if (fs.existsSync(p)) {
+    chromePath = p;
+    break;
+  }
+}
+console.log('[INFO] Puppeteer will use Chrome at:', chromePath);
 
 const browser = await puppeteer.launch({
   headless: "new",
   args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  executablePath: process.env.RENDER ? CHROME_RENDER_PATH : puppeteer.executablePath()
+  executablePath: chromePath || undefined // fallback to Puppeteer's default if not found
 });
 
-  const page = await browser.newPage();
-  await page.setContent(html, { waitUntil: 'networkidle0' });
-  const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true });
-  await browser.close();
-  return pdfBuffer;
-}
 
 const app = express();
 const PORT = process.env.PORT || 3000;
