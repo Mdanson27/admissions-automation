@@ -10,19 +10,21 @@ const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
 const { GoogleAuth } = require('google-auth-library');
 
-// Parse credentials from env (fix \n in private_key)
+// =============================
+//    GOOGLE AUTH BASE64 LOGIC
+// =============================
 let credentials;
 try {
-  if (!process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
-    throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON environment variable not set!');
+  if (!process.env.GOOGLE_SERVICE_ACCOUNT_BASE64) {
+    throw new Error('GOOGLE_SERVICE_ACCOUNT_BASE64 environment variable not set!');
   }
-  console.log('[INFO] Parsing Google credentials from environment variable...');
+  console.log('[INFO] Decoding Google credentials from BASE64...');
   credentials = JSON.parse(
-    process.env.GOOGLE_SERVICE_ACCOUNT_JSON.replace(/\\n/g, '\n')
+    Buffer.from(process.env.GOOGLE_SERVICE_ACCOUNT_BASE64, 'base64').toString('utf8')
   );
   console.log('[SUCCESS] Google credentials parsed successfully.');
 } catch (err) {
-  console.error('[ERROR] Failed to parse Google service account JSON:');
+  console.error('[ERROR] Failed to decode Google service account BASE64:');
   console.error(err.message);
   process.exit(1);
 }
@@ -45,7 +47,7 @@ try {
   process.exit(1);
 }
 
-// Test Google Sheets/Drive connection
+// Test Google Sheets/Drive connection (Optional, just on server start)
 (async () => {
   try {
     await drive.files.list({ pageSize: 1 });
@@ -56,6 +58,10 @@ try {
     process.exit(1);
   }
 })();
+
+// ==== REST OF YOUR EXPRESS/MIDDLEWARE LOGIC FOLLOWS ====
+// (NO CHANGE to your middleware, routes, etc)
+
 
 // ...the rest of your server code, Express, routes, etc...
 
