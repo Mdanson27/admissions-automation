@@ -254,7 +254,9 @@ async function generateAdmissionPDF(formData, passportPhotoUrl) {
   `;
 
   // Puppeteer section
-  const puppeteer = require('puppeteer');
+ const puppeteer = require('puppeteer');
+console.log('[INFO] Puppeteer Chromium Executable Path:', puppeteer.executablePath());
+
 
 const browser = await puppeteer.launch({
   headless: "new",
