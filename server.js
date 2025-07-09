@@ -1,14 +1,64 @@
 require('dotenv').config();
-const fs = require('fs');
-
-// Replace escaped newlines (\\n) with real newlines
-if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
-  const fixedJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON.replace(/\\n/g, '\n');
-  fs.writeFileSync('./google-credentials.json', fixedJson);
-  process.env.GOOGLE_APPLICATION_CREDENTIALS = './google-credentials.json';
-}
-// Import Google APIs AFTER credentials file is ready
 const { google } = require('googleapis');
+const { GoogleAuth } = require('google-auth-library');
+
+// Parse credentials from env (fix \n in private_key)
+let credentials;
+try {
+  if (!process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+    throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON environment variable not set!');
+  }
+
+  // Optional: log a preview (never log the full private key in production)
+  console.log('[INFO] Parsing Google credentials from environment variable...');
+  credentials = JSON.parse(
+    process.env.GOOGLE_SERVICE_ACCOUNT_JSON.replace(/\\n/g, '\n')
+  );
+  console.log('[SUCCESS] Google credentials parsed successfully.');
+
+} catch (err) {
+  console.error('[ERROR] Failed to parse Google service account JSON:');
+  console.error(err.message);
+  // Optional: exit early if you want to prevent the app from starting
+  process.exit(1);
+}
+
+let auth;
+try {
+  auth = new GoogleAuth({
+    credentials,
+    scopes: [
+      'https://www.googleapis.com/auth/drive',
+      'https://www.googleapis.com/auth/spreadsheets'
+    ]
+  });
+  console.log('[SUCCESS] GoogleAuth initialized.');
+} catch (err) {
+  console.error('[ERROR] Failed to initialize GoogleAuth:');
+  console.error(err.message);
+  process.exit(1);
+}
+
+// Test Google Sheets/Drive connection
+(async () => {
+  try {
+    const drive = google.drive({ version: 'v3', auth });
+    const sheets = google.sheets({ version: 'v4', auth });
+
+    // Quick API call to check auth (e.g., list first 1 file in Drive)
+    await drive.files.list({ pageSize: 1 });
+    console.log('[SUCCESS] Google Drive API call succeeded.');
+
+    // Optional: also check Sheets
+    // await sheets.spreadsheets.get({ spreadsheetId: 'YOUR_SHEET_ID' });
+
+    // If you get here, all is well!
+  } catch (err) {
+    console.error('[ERROR] Google API call failed (invalid credentials?):');
+    console.error(err.response ? err.response.data : err.message);
+    process.exit(1);
+  }
+})();
 
 const express = require('express');
 const cors = require('cors');
