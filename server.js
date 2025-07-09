@@ -67,7 +67,7 @@ try {
 
 
 
-const puppeteer = require('puppeteer');
+
 
 // Utility: Generates a simple filled PDF using Puppeteer
 async function generateAdmissionPDF(formData, passportPhotoUrl) {
@@ -254,7 +254,14 @@ async function generateAdmissionPDF(formData, passportPhotoUrl) {
   `;
 
   // Puppeteer section
-  const browser = await require('puppeteer').launch({ headless: "new" });
+  const puppeteer = require('puppeteer');
+
+const browser = await puppeteer.launch({
+  headless: "new",
+  args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath(),
+});
+
   const page = await browser.newPage();
   await page.setContent(html, { waitUntil: 'networkidle0' });
   const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true });
