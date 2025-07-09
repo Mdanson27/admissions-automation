@@ -1,4 +1,12 @@
 require('dotenv').config();
+const fs = require('fs');
+const express = require('express');
+const cors = require('cors');
+const multer = require('multer');
+const path = require('path');
+const { Readable } = require('stream');
+const nodemailer = require('nodemailer');
+
 const { google } = require('googleapis');
 const { GoogleAuth } = require('google-auth-library');
 
@@ -256,27 +264,6 @@ const SHEET_ID_CLASS_LISTS = process.env.SHEET_ID_CLASS_LISTS;
 const SHEET_ID_ADMISSIONS = process.env.SHEET_ID_ADMISSIONS;
 const PDF_FOLDER_ID = process.env.PDF_FOLDER_ID;
 const UPLOADS_FOLDER_ID = process.env.UPLOADS_FOLDER_ID;
-
-
-// Authenticate with Google APIs using a Service Account
-// Authenticate with Google APIs using a Service Account  if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
-  // Write service account JSON to a temp file if needed (Render compatible)
-  fs.writeFileSync('./google-credentials.json', process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
-  process.env.GOOGLE_APPLICATION_CREDENTIALS = './google-credentials.json';
-}
-
-
-const auth = new google.auth.GoogleAuth({
-  keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
-  scopes: [
-    'https://www.googleapis.com/auth/drive',
-    'https://www.googleapis.com/auth/spreadsheets'
-  ]
-});
-
-
-const drive = google.drive({ version: 'v3', auth });
-const sheets = google.sheets({ version: 'v4', auth });
 
 // ----- Middlewares -----
 app.use(cors());
