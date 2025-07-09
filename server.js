@@ -8,22 +8,18 @@ try {
   if (!process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
     throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON environment variable not set!');
   }
-
-  // Optional: log a preview (never log the full private key in production)
   console.log('[INFO] Parsing Google credentials from environment variable...');
   credentials = JSON.parse(
     process.env.GOOGLE_SERVICE_ACCOUNT_JSON.replace(/\\n/g, '\n')
   );
   console.log('[SUCCESS] Google credentials parsed successfully.');
-
 } catch (err) {
   console.error('[ERROR] Failed to parse Google service account JSON:');
   console.error(err.message);
-  // Optional: exit early if you want to prevent the app from starting
   process.exit(1);
 }
 
-let auth;
+let auth, drive, sheets;
 try {
   auth = new GoogleAuth({
     credentials,
@@ -32,9 +28,11 @@ try {
       'https://www.googleapis.com/auth/spreadsheets'
     ]
   });
-  console.log('[SUCCESS] GoogleAuth initialized.');
+  drive = google.drive({ version: 'v3', auth });
+  sheets = google.sheets({ version: 'v4', auth });
+  console.log('[SUCCESS] GoogleAuth and API clients initialized.');
 } catch (err) {
-  console.error('[ERROR] Failed to initialize GoogleAuth:');
+  console.error('[ERROR] Failed to initialize GoogleAuth/API clients:');
   console.error(err.message);
   process.exit(1);
 }
@@ -42,17 +40,8 @@ try {
 // Test Google Sheets/Drive connection
 (async () => {
   try {
-    const drive = google.drive({ version: 'v3', auth });
-    const sheets = google.sheets({ version: 'v4', auth });
-
-    // Quick API call to check auth (e.g., list first 1 file in Drive)
     await drive.files.list({ pageSize: 1 });
     console.log('[SUCCESS] Google Drive API call succeeded.');
-
-    // Optional: also check Sheets
-    // await sheets.spreadsheets.get({ spreadsheetId: 'YOUR_SHEET_ID' });
-
-    // If you get here, all is well!
   } catch (err) {
     console.error('[ERROR] Google API call failed (invalid credentials?):');
     console.error(err.response ? err.response.data : err.message);
@@ -60,24 +49,7 @@ try {
   }
 })();
 
-const express = require('express');
-const cors = require('cors');
-const multer = require('multer');
-const path = require('path');
-const { Readable } = require('stream');
-const nodemailer = require('nodemailer');
-
-const TERMS_PATH = path.join(__dirname, 'public', 'AfricanPearlSchool_Terms_and_Conditions.pdf');
-
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: process.env.SMTP_PORT,
-  secure: process.env.SMTP_SECURE === "true",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+// ...the rest of your server code, Express, routes, etc...
 
 
 
@@ -287,11 +259,7 @@ const UPLOADS_FOLDER_ID = process.env.UPLOADS_FOLDER_ID;
 
 
 // Authenticate with Google APIs using a Service Account
-// Authenticate with Google APIs using a Service Account
-const { GoogleAuth } = require('google-auth-library');
-
-
-if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+// Authenticate with Google APIs using a Service Account  if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
   // Write service account JSON to a temp file if needed (Render compatible)
   fs.writeFileSync('./google-credentials.json', process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = './google-credentials.json';
