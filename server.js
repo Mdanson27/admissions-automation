@@ -1,16 +1,23 @@
 require('dotenv').config();
-const fs = require('fs'); // <--- Add this
-// ... other imports
+const fs = require('fs');
+
+// Replace escaped newlines (\\n) with real newlines
+if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+  const fixedJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON.replace(/\\n/g, '\n');
+  fs.writeFileSync('./google-credentials.json', fixedJson);
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = './google-credentials.json';
+}
+// Import Google APIs AFTER credentials file is ready
+const { google } = require('googleapis');
+
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
-const { google } = require('googleapis');
 const path = require('path');
 const { Readable } = require('stream');
 const nodemailer = require('nodemailer');
 
 const TERMS_PATH = path.join(__dirname, 'public', 'AfricanPearlSchool_Terms_and_Conditions.pdf');
-
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -23,14 +30,6 @@ const transporter = nodemailer.createTransport({
 });
 
 
-// --- Service Account JSON write (must be before GoogleAuth) ---
-if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
-  fs.writeFileSync(
-    './google-credentials.json',
-    process.env.GOOGLE_SERVICE_ACCOUNT_JSON
-  );
-  process.env.GOOGLE_APPLICATION_CREDENTIALS = './google-credentials.json';
-}
 
 const puppeteer = require('puppeteer');
 
