@@ -248,10 +248,15 @@ if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
   process.env.GOOGLE_APPLICATION_CREDENTIALS = './google-credentials.json';
 }
 
+
 const auth = new google.auth.GoogleAuth({
   keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
-  scopes: [ ... ]
+  scopes: [
+    'https://www.googleapis.com/auth/drive',
+    'https://www.googleapis.com/auth/spreadsheets'
+  ]
 });
+
 
  
 });
