@@ -258,8 +258,6 @@ const auth = new google.auth.GoogleAuth({
 });
 
 
- 
-});
 const drive = google.drive({ version: 'v3', auth });
 const sheets = google.sheets({ version: 'v4', auth });
 
