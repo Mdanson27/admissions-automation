@@ -5,7 +5,7 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const { Readable } = require('stream');
-const nodemailer = require('nodemailer');
+
 
 const { google } = require('googleapis');
 const { GoogleAuth } = require('google-auth-library');
@@ -595,52 +595,6 @@ if (listTab) {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
-  }
-});
-
-
-// ====== /sendEmail Route Handler (OUTSIDE /admissions, just once!) ======
-app.post('/sendEmail', async (req, res) => {
-  try {
-    const { email } = req.body; // get data from frontend
-
-    if (!email) throw new Error("No email provided");
-
-    // Build email
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: "African Pearl School Payment Details",
-      text: `
-Dear Parent/Guardian,
-
-Thank you for your application. Please find attached the school Terms & Conditions.
-
-Payment Details:
-- Pay via SchoolPay code X or Equity Bank UGX 01103555107104.
-- Fees are non-refundable; late fees incur 5% per week.
-- After payment, print & sign your form and submit with your receipt.
-
-If you have any questions, reply to this email.
-
-Regards,
-African Pearl International School
-      `,
-      attachments: [
-        {
-          filename: "African_Pearl_Terms_and_Conditions.pdf",
-          path: TERMS_PATH, // <<--- attach from file, not buffer
-          contentType: "application/pdf"
-        }
-      ]
-    };
-
-    await transporter.sendMail(mailOptions);
-
-    res.json({ success: true, msg: 'Payment instructions sent!' });
-  } catch (err) {
-    console.error("Email sending error:", err);
-    res.status(500).json({ error: "Failed to send email." });
   }
 });
 
