@@ -75,7 +75,7 @@
             <img src="logo.png" alt="The African Pearl School Logo">
           </td>
           <td class="header-info">
-            <div style="font-size:16px;font-weight:bold;">The African Pearl International School Ltd</div>
+            <div style="font-size:16px;font-weight:bold;">The African Pearl School Ltd (International)</div>
             <div>(Nursery / Primary / Secondary Day & Boarding)</div>
             <div>(Behind Shell Kabalagala, Kampala – Tel: 0709786333)</div>
             <div style="margin-top:8px;font-size:15px;font-weight:bold;">ADMISSION FORM</div>
@@ -132,15 +132,26 @@
         <tr>
           <td colspan="2" class="required">
             Class Applying For:
-            <select name="classApplied" id="classApplied" required>
-              <option value="">Select Class</option>
-              <option>Baby Class</option><option>Middle Class</option><option>Top Class</option>
-              <option>Grade 1</option><option>Grade 2</option><option>Grade 3</option>
-              <option>Grade 4</option><option>Grade 5</option><option>Grade 6</option>
-              <option>Year 7</option><option>Year 8</option><option>Year 9</option>
-              <option>Year 10</option><option>Year 11</option><option>Year 12</option>
-              <option>Year 13</option>
-            </select>
+           <select name="classApplied" id="classApplied" required>
+  <option value="">Select Class</option>
+  <option value="BABY CLASS">Baby Class</option>
+  <option value="MIDDLE CLASS">Middle Class</option>
+  <option value="TOP CLASS">Top Class</option>
+  <option value="GRADE 1">Grade 1</option>
+  <option value="GRADE 2">Grade 2</option>
+  <option value="GRADE 3">Grade 3</option>
+  <option value="GRADE 4">Grade 4</option>
+  <option value="GRADE 5">Grade 5</option>
+  <option value="GRADE 6">Grade 6</option>
+  <option value="YEAR 7">Year 7</option>
+  <option value="YEAR 8">Year 8</option>
+  <option value="YEAR 9">Year 9</option>
+  <option value="YEAR 10">Year 10</option>
+  <option value="YEAR 11">Year 11</option>
+  <option value="YEAR 12">Year 12</option>
+  <option value="YEAR 13">Year 13</option>
+</select>
+
           </td>
           <td colspan="2" class="required">
             Day / Boarding:
@@ -201,9 +212,11 @@
         <!-- Emergency -->
         <tr><td colspan="4" class="section-header">Emergency Contacts</td></tr>
         <tr>
-          <td>#1 Name:<input type="text" name="emergency1_name"></td>
-          <td>Tel:<input type="text" name="emergency1_tel"></td>
-          <td colspan="2">Relationship:<input type="text" name="emergency1_relation"></td>
+          <!-- Emergency Contact 1 -->
+<td class="required">#1 Name:<input type="text" name="emergency1_name" required></td>
+<td class="required">Tel:<input type="text" name="emergency1_tel" required></td>
+<td colspan="2" class="required">Relationship:<input type="text" name="emergency1_relation" required></td>
+
         </tr>
         <tr>
           <td>#2 Name:<input type="text" name="emergency2_name"></td>
@@ -361,24 +374,43 @@
     const admissionsForm=document.getElementById('admissionsForm');
     const step2=document.getElementById('step2');
     const pdfBtn=document.getElementById('pdfDownload');
-    admissionsForm.addEventListener('submit', async e => {
-      e.preventDefault();
-      const fd = new FormData(admissionsForm);
-      try {
-        const res = await fetch('/admissions', { method: 'POST', body: fd });
-        if (!res.ok) throw new Error(await res.text());
-        const result = await res.json();
 
-        admissionsForm.classList.add('hidden');
-        step2.classList.remove('hidden');
+admissionsForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  const submitBtn = admissionsForm.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+  const fd = new FormData(admissionsForm);
 
-        pdfBtn.href = result.pdfUrl || "#";
-        pdfBtn.download = "Admission_Form.pdf";
-        pdfBtn.style.display = result.pdfUrl ? "inline-block" : "none";
-      } catch (err) {
-        alert(err.message);
-      }
-    });
+  try {
+    const res = await fetch('/admissions', { method: 'POST', body: fd });
+    console.log("Fetch status:", res.status);
+    const text = await res.text();
+    console.log("Raw response text:", text);
+
+    if (!res.ok) throw new Error(text);
+
+    let result;
+    try {
+      result = JSON.parse(text);
+    } catch (parseErr) {
+      throw new Error("Could not parse JSON from server: " + parseErr.message + "\n" + text);
+    }
+
+    if (result.success && result.pdfUrl) {
+      admissionsForm.classList.add('hidden');
+      step2.classList.remove('hidden');
+      pdfBtn.href = result.pdfUrl;
+      pdfBtn.download = "Admission_Form.pdf";
+      pdfBtn.style.display = "inline-block";
+    } else {
+      throw new Error("Submission succeeded but PDF not generated. Please contact admin.");
+    }
+  } catch (err) {
+    alert("Submission failed: " + err.message);
+    submitBtn.disabled = false;
+  }
+});
+
 
     // Auto-“No” logic
     function setupYesNoAutoDetails(name, detailsId) {
