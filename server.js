@@ -66,7 +66,7 @@ try {
 // ...the rest of your server code, Express, routes, etc...
 
 
-
+const puppeteer = require('puppeteer');
 
 
 // Utility: Generates a simple filled PDF using Puppeteer
@@ -253,48 +253,16 @@ async function generateAdmissionPDF(formData, passportPhotoUrl) {
     </html>
   `;
 
-  // Puppeteer section
-const dir = '/opt/render/.cache/puppeteer/chrome/linux-137.0.7151.119';
-if (fs.existsSync(dir)) {
-  console.log('[DEBUG] Listing files in Puppeteer Chrome dir:');
-  fs.readdirSync(dir).forEach(file => {
-    console.log('[DEBUG]', file);
+ const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox','--disable-setuid-sandbox']
   });
-} else {
-  console.log('[WARN] Puppeteer Chrome dir does not exist:', dir);
+  const page = await browser.newPage();
+  await page.setContent(html, { waitUntil: 'networkidle0' });
+  const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true });
+  await browser.close();
+  return pdfBuffer;
 }
-
-const puppeteer = require('puppeteer');
-
-const guessChromePaths = [
-  '/opt/render/.cache/puppeteer/chrome/linux-137.0.7151.119/chrome-linux64/chrome',
-  '/usr/bin/chromium-browser',
-  '/usr/bin/chromium',
-  '/usr/bin/google-chrome-stable',
-  '/usr/bin/google-chrome',
-];
-
-let chromePath = null;
-for (const p of guessChromePaths) {
-  if (fs.existsSync(p)) {
-    chromePath = p;
-    break;
-  }
-}
-console.log('[INFO] Puppeteer will use Chrome at:', chromePath);
-
-const browser = await puppeteer.launch({
-  headless: "new",
-  args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  executablePath: chromePath || undefined
-});
-
-const page = await browser.newPage();
-await page.setContent(html, { waitUntil: 'networkidle0' });
-const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true });
-await browser.close();
-return pdfBuffer;
-} // <--- close the function!
 
 
 const app = express();
