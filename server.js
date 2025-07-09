@@ -255,21 +255,24 @@ async function generateAdmissionPDF(formData, passportPhotoUrl) {
 
   // Puppeteer section
 const dir = '/opt/render/.cache/puppeteer/chrome/linux-137.0.7151.119';
-console.log('[DEBUG] Listing files in Puppeteer Chrome dir:');
-fs.readdirSync(dir).forEach(file => {
-  console.log('[DEBUG]', file);
-});
-  
+if (fs.existsSync(dir)) {
+  console.log('[DEBUG] Listing files in Puppeteer Chrome dir:');
+  fs.readdirSync(dir).forEach(file => {
+    console.log('[DEBUG]', file);
+  });
+} else {
+  console.log('[WARN] Puppeteer Chrome dir does not exist:', dir);
+}
+
 const puppeteer = require('puppeteer');
 
 const guessChromePaths = [
+  '/opt/render/.cache/puppeteer/chrome/linux-137.0.7151.119/chrome-linux64/chrome',
   '/usr/bin/chromium-browser',
   '/usr/bin/chromium',
   '/usr/bin/google-chrome-stable',
   '/usr/bin/google-chrome',
 ];
-
-// Find the first existing Chrome path
 
 let chromePath = null;
 for (const p of guessChromePaths) {
@@ -283,8 +286,15 @@ console.log('[INFO] Puppeteer will use Chrome at:', chromePath);
 const browser = await puppeteer.launch({
   headless: "new",
   args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  executablePath: chromePath || undefined // fallback to Puppeteer's default if not found
+  executablePath: chromePath || undefined
 });
+
+const page = await browser.newPage();
+await page.setContent(html, { waitUntil: 'networkidle0' });
+const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true });
+await browser.close();
+return pdfBuffer;
+} // <--- close the function!
 
 
 const app = express();
