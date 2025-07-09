@@ -240,7 +240,7 @@ const UPLOADS_FOLDER_ID = process.env.UPLOADS_FOLDER_ID;
 // Authenticate with Google APIs using a Service Account
 // Authenticate with Google APIs using a Service Account
 const { GoogleAuth } = require('google-auth-library');
-const fs = require('fs');
+
 
 if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
   // Write service account JSON to a temp file if needed (Render compatible)
