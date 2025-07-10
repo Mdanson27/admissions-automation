@@ -1,4 +1,19 @@
-.env
+# Node modules
 node_modules/
+
+# dotenv environment variables
+.env
+
+# Service account key
+n8n-admissions-sa-key.json
+
+# Logs
+logs/
+*.log
+
+# Mac system files
 .DS_Store
-uploads/
+
+# VSCode config
+.vscode/
+credentials.json
