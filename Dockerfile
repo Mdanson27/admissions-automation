@@ -1,27 +1,29 @@
-# Use a Debian-based Node image
-FROM node:18-bullseye-slim
+# Dockerfile
+FROM node:20-slim
 
-# Install Chromium (for Puppeteer)
+# Install Chromium
 RUN apt-get update \
- && apt-get install -y --no-install-recommends \
+ && apt-get install -y \
       chromium \
-      ca-certificates \
  && rm -rf /var/lib/apt/lists/*
 
-# Tell Puppeteer where Chromium lives
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+# Set Puppeteer to use the system Chromium
+ENV PUPPETEER_EXECUTABLE_PATH="/usr/bin/chromium" \
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+    PORT=8080
 
 # Create app directory
 WORKDIR /usr/src/app
 
-# Install dependencies
+# Copy package.json & lock, install deps
 COPY package*.json ./
 RUN npm install --production
 
-# Copy source
+# Copy rest of your source
 COPY . .
 
-# Expose port and set start
-ENV PORT=8080
+# Expose Cloud Run port
 EXPOSE 8080
+
+# Run your server
 CMD ["node", "server.js"]
