@@ -1,0 +1,23 @@
+{
+  "name": "admissions-trial",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+  
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.0",
+    "express": "^5.1.0",
+    "googleapis": "^150.0.1",
+    "multer": "^2.0.1",
+    "nodemailer": "^7.0.3",
+    "puppeteer": "^24.10.2"
+  }
+}

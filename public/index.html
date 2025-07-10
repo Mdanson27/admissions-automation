@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>African Pearl International School — Admission Form</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #fff; color: #000; font-family: 'Times New Roman', serif; padding: 20px; }
+    .hidden { display: none; }
+    .form-container {
+      max-width: 900px;
+      margin: auto;
+      border: 2px solid #000;
+      padding: 0;
+    }
+    .header-table, .form-table {
+      table-layout: fixed;
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .header-table td {
+      border: none;
+      vertical-align: top;
+      padding: 8px;
+    }
+    .header-logo { width: 20%; text-align: center; }
+    .header-logo img { max-height: 100px; }
+    .header-info { width: 60%; text-align: center; font-size: 14px; line-height: 1.2; }
+    .header-photo { width: 20%; text-align: center; font-size: 12px; padding-top: 8px; }
+    .photo-box {
+      width: 100px; height: 120px;
+      margin: 0 auto 8px;
+      border: 2px dashed #000;
+      background-size: cover;
+      background-position: center;
+    }
+    .photo-box.empty::after {
+      content: "PNG only"; display: block; color: #666; line-height: 120px;
+    }
+    .note { font-size: 11px; color: #333; margin-top: 4px; }
+    .header-photo input[type="file"] {
+      display: block; width: 80%; max-width: 120px; margin: 6px auto 0;
+    }
+    .form-table th, .form-table td {
+      border: 1px solid #000;
+      padding: 6px;
+      vertical-align: top;
+      font-size: 13px;
+    }
+    .form-table input[type="text"],
+    .form-table input[type="date"],
+    .form-table input[type="email"],
+    .form-table select,
+    .form-table textarea {
+      width: 100%; border: 1px solid #666; padding: 4px; font-size: 13px; font-family: inherit;
+    }
+    .form-table input[type="radio"] { margin-left: 4px; transform: scale(1.1); }
+    .required::after { content: " *"; color: red; }
+    .section-header {
+      background: #f0f0f0; text-align: center; font-weight: bold; font-size: 14px;
+    }
+    .submit-row td { text-align: center; padding: 16px; }
+    .submit-btn {
+      padding: 10px 30px; font-size: 15px; font-weight: bold; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <!-- STEP 1 -->
+    <form id="admissionsForm" enctype="multipart/form-data">
+      <table class="header-table">
+        <tr>
+          <td class="header-logo">
+            <img src="logo.png" alt="The African Pearl School Logo">
+          </td>
+          <td class="header-info">
+            <div style="font-size:16px;font-weight:bold;">The African Pearl School Ltd (International)</div>
+            <div>(Nursery / Primary / Secondary Day & Boarding)</div>
+            <div>(Behind Shell Kabalagala, Kampala – Tel: 0709786333)</div>
+            <div style="margin-top:8px;font-size:15px;font-weight:bold;">ADMISSION FORM</div>
+            <div style="font-size:12px;margin-top:4px;">
+              To be signed and returned before your child starts with the school.<br>
+              All information will be treated confidentially.
+            </div>
+          </td>
+          <td class="header-photo">
+            <div class="photo-box empty" id="photoBox"></div>
+            <input type="file" name="passport_size_photo" id="passportSizePhotoInput" accept="image/png" required>
+            <div class="note">Passport-size photograph (PNG only)</div>
+          </td>
+        </tr>
+      </table>
+      <table class="form-table">
+        <!-- Student Details -->
+        <tr>
+          <td colspan="2" class="required">
+            Full Name (As per passport/birth certificate):
+            <input type="text" name="full_name" required>
+          </td>
+          <td class="required">
+            Date of Birth (DD/MM/YYYY):
+            <input type="date" name="date_of_birth" required>
+          </td>
+          <td class="required">
+            Gender:
+            <select name="gender" required>
+              <option value="">Select</option><option>Male</option><option>Female</option><option>Other</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="required">
+            Country of Birth:
+            <input type="text" name="country_of_birth" required>
+          </td>
+          <td class="required">
+            Nationality:
+            <input type="text" name="nationality" required>
+          </td>
+          <td>
+            Mother Tongue:
+            <input type="text" name="mother_tongue">
+          </td>
+          <td class="required">
+            Publishing Photos (social media/marketing):
+            Yes <input type="radio" name="publish_photos" value="Yes">
+            No  <input type="radio" name="publish_photos" value="No">
+          </td>
+        </tr>
+        <!-- Class & Day/Boarding -->
+        <tr>
+          <td colspan="2" class="required">
+            Class Applying For:
+           <select name="classApplied" id="classApplied" required>
+  <option value="">Select Class</option>
+  <option value="BABY CLASS">Baby Class</option>
+  <option value="MIDDLE CLASS">Middle Class</option>
+  <option value="TOP CLASS">Top Class</option>
+  <option value="GRADE 1">Grade 1</option>
+  <option value="GRADE 2">Grade 2</option>
+  <option value="GRADE 3">Grade 3</option>
+  <option value="GRADE 4">Grade 4</option>
+  <option value="GRADE 5">Grade 5</option>
+  <option value="GRADE 6">Grade 6</option>
+  <option value="YEAR 7">Year 7</option>
+  <option value="YEAR 8">Year 8</option>
+  <option value="YEAR 9">Year 9</option>
+  <option value="YEAR 10">Year 10</option>
+  <option value="YEAR 11">Year 11</option>
+  <option value="YEAR 12">Year 12</option>
+  <option value="YEAR 13">Year 13</option>
+</select>
+
+          </td>
+          <td colspan="2" class="required">
+            Day / Boarding:
+            <select name="studentType" required>
+              <option value="">Select</option><option>Day</option><option>Boarding</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="required">
+            Home Address:
+            <textarea name="home_address" rows="2" required></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="required">
+            Previous school name and address:
+            <textarea name="previous_school" rows="2" required></textarea>
+          </td>
+          <td colspan="2" class="required">
+            Last completed Year-band/Class:
+            <input type="text" name="last_completed_year" required>
+          </td>
+        </tr>
+        <!-- Parent Details -->
+        <tr><td colspan="4" class="section-header">Parent Details</td></tr>
+        <tr>
+          <td class="required">Father’s Full Name:<input type="text" name="father_name" required></td>
+          <td class="required">Mobile Number:<input type="text" name="father_mobile" required></td>
+          <td colspan="2" class="required">Email address:<input type="email" name="father_email" required></td>
+        </tr>
+        <tr><td colspan="4">Address of father, if different:<input type="text" name="father_address"></td></tr>
+        <tr>
+          <td>Occupation:<input type="text" name="father_occupation"></td>
+          <td>Employer:<input type="text" name="father_employer"></td>
+          <td colspan="2"></td>
+        </tr>
+        <tr>
+          <td class="required">Mother’s Full Name:<input type="text" name="mother_name" required></td>
+          <td class="required">Mobile Number:<input type="text" name="mother_mobile" required></td>
+          <td colspan="2" class="required">Email address:<input type="email" name="mother_email" required></td>
+        </tr>
+        <tr><td colspan="4">Address of mother, if different:<input type="text" name="mother_address"></td></tr>
+        <tr>
+          <td>Occupation:<input type="text" name="mother_occupation"></td>
+          <td>Employer:<input type="text" name="mother_employer"></td>
+          <td colspan="2"></td>
+        </tr>
+        <!-- Guardian -->
+        <tr><td colspan="4" class="section-header">Guardian (if applicable)</td></tr>
+        <tr>
+          <td>Name:<input type="text" name="guardian_name"></td>
+          <td>Relationship:<input type="text" name="guardian_relation"></td>
+          <td class="required">Mobile Number:<input type="text" name="guardian_mobile"></td>
+          <td>Email address:<input type="email" name="guardian_email"></td>
+        </tr>
+        <tr><td colspan="4">Occupation:<input type="text" name="guardian_occupation"></td></tr>
+        <!-- Emergency -->
+        <tr><td colspan="4" class="section-header">Emergency Contacts</td></tr>
+        <tr>
+          <!-- Emergency Contact 1 -->
+<td class="required">#1 Name:<input type="text" name="emergency1_name" required></td>
+<td class="required">Tel:<input type="text" name="emergency1_tel" required></td>
+<td colspan="2" class="required">Relationship:<input type="text" name="emergency1_relation" required></td>
+
+        </tr>
+        <tr>
+          <td>#2 Name:<input type="text" name="emergency2_name"></td>
+          <td>Tel:<input type="text" name="emergency2_tel"></td>
+          <td colspan="2">Relationship:<input type="text" name="emergency2_relation"></td>
+        </tr>
+        <!-- Siblings -->
+        <tr><td colspan="4" class="section-header">Siblings at APS</td></tr>
+        <tr>
+          <td class="required">
+            Any siblings at APS?
+            Yes <input type="radio" name="siblings_at_aps" value="Yes">
+            No  <input type="radio" name="siblings_at_aps" value="No">
+          </td>
+          <td colspan="3">Names & Class:<textarea id="siblings_details" name="siblings_details" placeholder="e.g. John – Grade 3"></textarea></td>
+        </tr>
+        <!-- File uploads -->
+        <tr><td colspan="4" class="section-header">Please attach the following files</td></tr>
+        <tr>
+          <td class="required">1. Passport photo:<br>
+            <input type="file" name="passport_photo" id="passportPhotoInput" accept="image/png" required>
+          </td>
+          <td class="required" id="reportRow">2. Report card:<br>
+            <input type="file" name="report_card" id="reportCardInput" accept="application/pdf" required>
+          </td>
+          <td class="required">3. Birth Certificate:<br>
+            <input type="file" name="birth_cert" id="birthCertInput" accept="application/pdf" required>
+          </td>
+          <td class="required">4. Passport copy / National ID / Refugee copy (PDF):<br>
+            <input type="file" name="passport_copy" id="passportIdInput" accept="application/pdf" required>
+          </td>
+        </tr>
+        <!-- Remarks & Admission date -->
+        <tr>
+          <td colspan="2">
+            Remarks:
+            <textarea name="remarks" rows="2" readonly></textarea>
+          </td>
+          <td>Referred by:<input type="text" name="referred_by"></td>
+          <td>Date of Admission:<input type="date" name="admission_date" id="admissionDate" required><br>Yearband Admitted to:<input type="text" name="yearband_admitted"></td>
+        </tr>
+        <!-- Medical -->
+        <tr><td colspan="4" class="section-header">Medical Information (confidential)</td></tr>
+        <tr>
+          <td colspan="2">
+            Allergies/asthma/others?
+            Yes <input type="radio" name="allergies" value="Yes">
+            No  <input type="radio" name="allergies" value="No">
+          </td>
+          <td colspan="2">If yes, details:<textarea id="allergy_details" name="allergy_details" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            Paracetamol/Panadol ok?
+            Yes <input type="radio" name="paracetamol" value="Yes">
+            No  <input type="radio" name="paracetamol" value="No">
+          </td>
+          <td colspan="2"></td>
+        </tr>
+        <tr>
+          <td colspan="4">If unwell and parents unavailable, please provide two additional contacts:</td>
+        </tr>
+        <tr>
+          <td>Name:</td><td>Tel:</td><td>Relationship:</td><td></td>
+        </tr>
+        <tr><td><input type="text" name="alt1_name"></td><td><input type="text" name="alt1_tel"></td><td><input type="text" name="alt1_relation"></td><td></td></tr>
+        <tr>
+          <td>Name:</td><td>Tel:</td><td>Relationship:</td><td></td>
+        </tr>
+        <tr><td><input type="text" name="alt2_name"></td><td><input type="text" name="alt2_tel"></td><td><input type="text" name="alt2_relation"></td><td></td></tr>
+        <!-- Signature -->
+        <tr class="submit-row">
+          <td colspan="4">
+            <label class="required"><input type="checkbox" id="tcAcceptance" name="tcAcceptance" required>
+              I agree to the terms & conditions.</label><br>
+            <label class="required">Signature (type full name):</label>
+            <input type="text" name="signature" required><br>
+            <button type="submit" class="submit-btn">Submit Application</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+    <!-- STEP 2: Success message and download links -->
+    <div id="step2" class="hidden" style="max-width:600px;margin:40px auto;text-align:center;">
+      <h2 style="color:#216399;">Thank you for your application!</h2>
+      <p style="font-size:17px;line-height:1.5;">
+        Your application has been received.<br>
+        <b>Please download your Admission Form PDF below.</b><br>
+        Bring the signed PDF and copies of your ID documents to the school when reporting.<br>
+        <span style="color:green;">Welcome to African Pearl International School!</span>
+      </p>
+      <a id="pdfDownload" class="download-btn" style="display:inline-block;margin:18px; padding:10px 20px; background:#004477; color:#fff; border-radius:8px; font-weight:bold;"
+        href="#" download="Admission_Form.pdf" target="_blank">Download Official Admission Form (PDF)</a>
+      <a href="AfricanPearlSchool_Terms_and_Conditions.pdf"
+        class="download-btn"
+        style="display:inline-block;margin:18px; padding:10px 20px; background:#006699; color:#fff; border-radius:8px; font-weight:bold;"
+        download="AfricanPearlSchool_Terms_and_Conditions.pdf"
+        target="_blank">
+        Download School Terms & Conditions (PDF)
+      </a>
+      <br>
+      <button onclick="window.location.reload()" style="margin-top:28px;padding:8px 18px;">Submit Another Application</button>
+    </div>
+  </div>
+  <script>
+    // Auto-fill admission date
+    document.getElementById('admissionDate').value = new Date().toISOString().split('T')[0];
+
+    // File size limit (2MB)
+    const MAX_FILE_SIZE = 2 * 1024 * 1024;
+    ['passportSizePhotoInput','passportPhotoInput','reportCardInput','birthCertInput','passportIdInput'].forEach(id => {
+      const inp = document.getElementById(id);
+      inp.addEventListener('change', () => {
+        const file = inp.files[0];
+        if (file && file.size > MAX_FILE_SIZE) {
+          alert('File too large. Max size is 2MB.');
+          inp.value = '';
+          if (id==='passportSizePhotoInput') {
+            const box = document.getElementById('photoBox');
+            box.style.backgroundImage = '';
+            box.classList.add('empty');
+          }
+        }
+      });
+    });
+
+    // Passport preview
+    const input = document.getElementById('passportSizePhotoInput');
+    const box   = document.getElementById('photoBox');
+    input.addEventListener('change', () => {
+      const file = input.files[0];
+      if (!file) { box.style.backgroundImage=''; box.classList.add('empty'); return; }
+      if (file.type!=='image/png') { alert('Please select a PNG'); input.value=''; return; }
+      const reader=new FileReader();
+      reader.onload=e=>{box.style.backgroundImage=`url(${e.target.result})`;box.classList.remove('empty');};
+      reader.readAsDataURL(file);
+    });
+
+    // Baby-Class toggle
+    document.addEventListener('DOMContentLoaded',()=>{
+      const classSel    = document.getElementById('classApplied');
+      const reportInput = document.getElementById('reportCardInput');
+      const reportCell  = document.getElementById('reportRow');
+      function toggleReport(){
+        const isBaby = classSel.value==='Baby Class';
+        reportInput.required = !isBaby;
+        reportCell.style.opacity = isBaby?'0.5':'1';
+        reportCell.classList.toggle('required',!isBaby);
+      }
+      classSel.addEventListener('change',toggleReport);
+      toggleReport();
+    });
+
+    // Two-step flow
+    const admissionsForm=document.getElementById('admissionsForm');
+    const step2=document.getElementById('step2');
+    const pdfBtn=document.getElementById('pdfDownload');
+
+admissionsForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  const submitBtn = admissionsForm.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+  const fd = new FormData(admissionsForm);
+
+  try {
+    const res = await fetch('/admissions', { method: 'POST', body: fd });
+    console.log("Fetch status:", res.status);
+    const text = await res.text();
+    console.log("Raw response text:", text);
+
+    if (!res.ok) throw new Error(text);
+
+    let result;
+    try {
+      result = JSON.parse(text);
+    } catch (parseErr) {
+      throw new Error("Could not parse JSON from server: " + parseErr.message + "\n" + text);
+    }
+
+    if (result.success && result.pdfUrl) {
+      admissionsForm.classList.add('hidden');
+      step2.classList.remove('hidden');
+      pdfBtn.href = result.pdfUrl;
+      pdfBtn.download = "Admission_Form.pdf";
+      pdfBtn.style.display = "inline-block";
+    } else {
+      throw new Error("Submission succeeded but PDF not generated. Please contact admin.");
+    }
+  } catch (err) {
+    alert("Submission failed: " + err.message);
+    submitBtn.disabled = false;
+  }
+});
+
+
+    // Auto-“No” logic
+    function setupYesNoAutoDetails(name, detailsId) {
+      const radios = document.querySelectorAll(`input[name="${name}"]`);
+      const detail = detailsId ? document.getElementById(detailsId) : null;
+      function update() {
+        const noChecked = Array.from(radios).some(r => r.value==='No' && r.checked);
+        if (detail) {
+          if (noChecked) {
+            detail.value = 'No';
+            detail.readOnly = true;
+            detail.style.background = '#eee';
+          } else {
+            detail.value = '';
+            detail.readOnly = false;
+            detail.style.background = '';
+          }
+        }
+      }
+      radios.forEach(r => r.addEventListener('change', update));
+      update();
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      setupYesNoAutoDetails('siblings_at_aps','siblings_details');
+      setupYesNoAutoDetails('allergies','allergy_details');
+      setupYesNoAutoDetails('paracetamol',''); // no detail field
+    });
+  </script>
+</body>
+</html>
+
