@@ -22,13 +22,6 @@ const sheets = google.sheets({ version: 'v4', auth });
 
 console.log('[SUCCESS] Using Application Default Credentials for Drive & Sheets.');
 
-// ==== REST OF YOUR EXPRESS/MIDDLEWARE LOGIC FOLLOWS ====
-// (NO CHANGE to your middleware, routes, etc)
-
-
-// ...the rest of your server code, Express, routes, etc...
-
-
 const puppeteer = require('puppeteer');
 
 
