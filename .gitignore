@@ -17,3 +17,4 @@ logs/
 # VSCode config
 .vscode/
 credentials.json
+credentials.json
