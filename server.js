@@ -7,57 +7,20 @@ const path = require('path');
 const { Readable } = require('stream');
 
 
-const { google } = require('googleapis');
 const { GoogleAuth } = require('google-auth-library');
+const { google }     = require('googleapis');
 
-// =============================
-//    GOOGLE AUTH BASE64 LOGIC
-// =============================
-let credentials;
-try {
-  if (!process.env.GOOGLE_SERVICE_ACCOUNT_BASE64) {
-    throw new Error('GOOGLE_SERVICE_ACCOUNT_BASE64 environment variable not set!');
-  }
-  console.log('[INFO] Decoding Google credentials from BASE64...');
-  credentials = JSON.parse(
-    Buffer.from(process.env.GOOGLE_SERVICE_ACCOUNT_BASE64, 'base64').toString('utf8')
-  );
-  console.log('[SUCCESS] Google credentials parsed successfully.');
-} catch (err) {
-  console.error('[ERROR] Failed to decode Google service account BASE64:');
-  console.error(err.message);
-  process.exit(1);
-}
+const auth = new GoogleAuth({
+  scopes: [
+    'https://www.googleapis.com/auth/drive',
+    'https://www.googleapis.com/auth/spreadsheets'
+  ]
+});
 
-let auth, drive, sheets;
-try {
-  auth = new GoogleAuth({
-    credentials,
-    scopes: [
-      'https://www.googleapis.com/auth/drive',
-      'https://www.googleapis.com/auth/spreadsheets'
-    ]
-  });
-  drive = google.drive({ version: 'v3', auth });
-  sheets = google.sheets({ version: 'v4', auth });
-  console.log('[SUCCESS] GoogleAuth and API clients initialized.');
-} catch (err) {
-  console.error('[ERROR] Failed to initialize GoogleAuth/API clients:');
-  console.error(err.message);
-  process.exit(1);
-}
+const drive  = google.drive({ version: 'v3', auth });
+const sheets = google.sheets({ version: 'v4', auth });
 
-// Test Google Sheets/Drive connection (Optional, just on server start)
-(async () => {
-  try {
-    await drive.files.list({ pageSize: 1 });
-    console.log('[SUCCESS] Google Drive API call succeeded.');
-  } catch (err) {
-    console.error('[ERROR] Google API call failed (invalid credentials?):');
-    console.error(err.response ? err.response.data : err.message);
-    process.exit(1);
-  }
-})();
+console.log('[SUCCESS] Using Application Default Credentials for Drive & Sheets.');
 
 // ==== REST OF YOUR EXPRESS/MIDDLEWARE LOGIC FOLLOWS ====
 // (NO CHANGE to your middleware, routes, etc)
