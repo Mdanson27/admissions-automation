@@ -7,56 +7,28 @@ const path = require('path');
 const { Readable } = require('stream');
 
 
-const SCOPES = [
-  'https://www.googleapis.com/auth/drive',
-  'https://www.googleapis.com/auth/spreadsheets'
-];
 
-const TOKEN_PATH = 'token.json';
+const { GoogleAuth } = require('google-auth-library');
+const { google } = require('googleapis');
 
-function authorize(credentials, callback) {
-  const { client_secret, client_id, redirect_uris } = credentials.installed;
-  const oAuth2Client = new google.auth.OAuth2(
-    client_id, client_secret, redirect_uris[0]);
-
-  fs.readFile(TOKEN_PATH, (err, token) => {
-    if (err) return getAccessToken(oAuth2Client, callback);
-    oAuth2Client.setCredentials(JSON.parse(token));
-    callback(oAuth2Client);
-  });
+// Decode credentials from BASE64 env variable
+const base64Creds = process.env.GOOGLE_SERVICE_ACCOUNT_BASE64;
+if (!base64Creds) {
+  throw new Error("GOOGLE_SERVICE_ACCOUNT_BASE64 env variable not set!");
 }
+const creds = JSON.parse(Buffer.from(base64Creds, 'base64').toString('utf8'));
 
-function getAccessToken(oAuth2Client, callback) {
-  const authUrl = oAuth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: SCOPES,
-  });
-  console.log('Authorize this app by visiting this url:\n', authUrl);
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-  rl.question('\nEnter the code from that page here: ', (code) => {
-    rl.close();
-    oAuth2Client.getToken(code, (err, token) => {
-      if (err) return console.error('Error retrieving access token', err);
-      oAuth2Client.setCredentials(token);
-      // Save the token to disk
-      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-        if (err) return console.error(err);
-        console.log('\nToken stored to', TOKEN_PATH);
-        console.log('\nPaste this refresh_token in your .env or Docker env:');
-        console.log(token);
-      });
-      callback(oAuth2Client);
-    });
-  });
-}
-
-fs.readFile('credentials.json', (err, content) => {
-  if (err) return console.log('Error loading client secret file:', err);
-  authorize(JSON.parse(content), () => {});
+const auth = new GoogleAuth({
+  credentials: creds,
+  scopes: [
+    'https://www.googleapis.com/auth/drive',
+    'https://www.googleapis.com/auth/spreadsheets',
+  ],
 });
+
+const drive = google.drive({ version: 'v3', auth });
+const sheets = google.sheets({ version: 'v4', auth });
+
 
 const puppeteer = require('puppeteer');
 
